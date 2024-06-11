@@ -20,7 +20,7 @@ However, from the point of view of the recipient of a transaction, the only aspe
 * The last state transition, that is represented by a transaction addressed to him.
 * The chronological sequence of transactions (and thus state transitions) leading up to the last state transition.
 
-Basically, what is relevant to the recipient is the [Directed Acyclic Graph](../annexes/glossary.md#directed-acyclic-graph-dag) which connects the history of the state transitions from the [Genesis](../annexes/glossary.md#genesis) to the last state addressed to him (a [Shard](../annexes/glossary.md#shard) of the whole data).
+Basically, what is relevant to the recipient is the [Directed Acyclic Graph](../annexes/glossary.md#directed-acyclic-graph-dag) which connects the history of the state transitions from the [Genesis](../annexes/glossary.md#genesis), or coinbase in blockchain terms, to the last state addressed to him (a [Shard](../annexes/glossary.md#shard) of the whole data).
 
 <figure><img src="../.gitbook/assets/transaction-graph-1.png" alt=""><figcaption><p><strong>The transaction graph of Public Blockchains cannot be sharded due to internal consistency.</strong></p></figcaption></figure>
 
@@ -36,14 +36,14 @@ For this reason, the **logic of validation can be reversed** in the following te
 * **Scalability**: since the commitment of the verified state, which must be stored by all, has, at least, a small footprint (order of tens of bytes), or, in [some commitment scheme](../commitment-layer/deterministic-bitcoin-commitments-dbc/tapret.md), no additional footprint in respect to an ordinary transaction.
 * **Privacy**: using a [one-way cryptographic hash function](https://en.wikipedia.org/wiki/Cryptographic\_hash\_function) (such as [SHA-256](https://en.wikipedia.org/wiki/SHA-2)), the original data (the pre-image) that produced the commitment cannot be reconstructed and it is kept private by the parties.
 
-<figure><img src="../.gitbook/assets/csv-shard-1.png" alt=""><figcaption><p><strong>Several shards can be aggregated in a single Layer 1 transaction. The Anchor structure establish a link between the client-side data of the contract and the single-use seal.</strong></p></figcaption></figure>
-
 The commitment structure used in Client-Side Validation (as in the RGB protocol, which we will cover in detail [later](../commitment-layer/commitment-schemes.md)) allows for important additional scalability features:
 
 * Aggregate state transitions of different contracts (e.g., two different contracts related to 2 different digital assets committed in a single Bitcoin transaction).
 * Bundle more than one state transition of the same asset in the same client-side operation.
 
 [Anchor](../commitment-layer/anchors.md) structures provide the deterministic link between the [single-use seal](single-use-seals.md) and the client-side data that represent the message to which the [single-use seal is closed over](single-use-seals.md#seal-closing).
+
+<figure><img src="../.gitbook/assets/csv-shard-1.png" alt=""><figcaption><p><strong>Several shards can be aggregated in a single Layer 1 transaction. The Anchor structure establish a link between the client-side data of the contract and the single-use seal.</strong></p></figcaption></figure>
 
 To guarantee the efficacy of the commitment scheme and precise chronological ordering derived from Layer 1, the use of a new cryptographic primitive needs to be introduced: the **Single-use Seal**.
 
