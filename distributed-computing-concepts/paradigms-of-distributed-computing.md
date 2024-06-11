@@ -21,7 +21,7 @@ The most important property of a distributed system is represented by the **Chro
 1. **Recognizing the validity of the state changes** by the nodes according to the protocol rules.
 2. **Establishing consensus on the order of the state changes** so that every node knows which operation precedes the other and the state cannot be reversed once it has changed: the so-called **anti double-spend property**.
 
-The achievement of a _resilient and reliable_ chronological ordering for distributed systems, which embeds important properties such as permissionlessness and censorship resistance, was reached by Satoshi Nakamoto with the invention of Bitcoin, using the blockchain data structure and a **Proof-of-Work (PoW)** consensus which is able to entrust different validating participants to the system according to their computational power. Indeed Bitcoin can be considered the first working example of a permissionless **Distributed Consensus System**.
+The achievement of a _resilient and reliable_ chronological ordering for distributed systems, which embeds important properties such as permissiveness and censorship resistance, was reached by Satoshi Nakamoto with the invention of Bitcoin, using the blockchain data structure and a **Proof-of-Work (PoW)** consensus which is able to entrust different validating participants to the system according to their computational power. Indeed Bitcoin can be considered the first working example of a permissionless **Distributed Consensus System**.
 
 We will discuss various kinds of **Distributed Consensus Systems** which have some degree of hierarchy and interrelated properties between them. They are differentiated on **how they determine and enforce the most updated state of the system**:
 
