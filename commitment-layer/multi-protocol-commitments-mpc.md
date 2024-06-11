@@ -7,7 +7,7 @@ Multi Protocol Commitments address the following important requirements:
 
 The preceding points are addressed through an **ordered merkelization** of the multiple contracts (actually their [transition bundles](../annexes/glossary.md#transition-bundle) IDs) in an [MPC](../annexes/glossary.md#multi-protocol-commitment-mpc) Tree whose properties will be addressed in depth in this section. Eventually, the root of the tree (`mpc::Root)` is hashed once more to get the `mpc:Commitment` which is finally committed in an output of the [witness transaction](../annexes/glossary.md#witness-transaction) using the appropriate [Deterministic Bitcoin Commitment](../annexes/glossary.md#deterministic-bitcoin-commitment-dbc) construction.
 
-<figure><img src="../.gitbook/assets/immagine (1).png" alt=""><figcaption><p><strong>Each RGB contract has a unique position in the MPC Tree determined by a modular division applied to its ContractId according to the width of the tree. In this example, the MPC tree has a width of 8.</strong> </p></figcaption></figure>
+<figure><img src="../.gitbook/assets/immagine (1).png" alt=""><figcaption><p><strong>Each RGB contract has a unique position in the MPC Tree determined by a modular division applied to its ContractId according to the width of the tree, with some additional logic to avoid collissions. In this example, the MPC tree has a width of 8.</strong> </p></figcaption></figure>
 
 ## MPC Root Hash
 
@@ -18,7 +18,7 @@ The commitment of the MPC tree - which goes either into [Opret](deterministic-bi
 Where:
 
 * `mpc::Root` is the root of the MPC tree whose construction is explained in the following paragraphs.
-* `mpc_tag = urn:ubideco:mpc:commitment#2024-01-31` follows[ RGB tagging conventions](https://github.com/RGB-WG/rgb-core/blob/vesper/doc/Commitments.md).
+* `mpc_tag = urn:ubideco:mpc:commitment#2024-01-31` follows[ RGB tagging conventions](https://github.com/RGB-WG/rgb-core/blob/master/doc/Commitments.md).
 
 ## MPC Tree Construction
 
@@ -44,7 +44,7 @@ Once `C` distinct positions `pos(c_i)` with `i = 0,...,C-1` are found, the corre
 
 Where:
 
-* `merkle_tag = urn:ubideco:merkle:node#2024-01-31` is chosen according to [RGB conventions on Merkle Tree tagging commitments](https://github.com/RGB-WG/rgb-core/blob/vesper/doc/Commitments.md#merklization-procedure).
+* `merkle_tag = urn:ubideco:merkle:node#2024-01-31` is chosen according to [RGB conventions on Merkle Tree tagging commitments](https://github.com/RGB-WG/rgb-core/blob/master/doc/Commitments.md#merklization-procedure).
 * `b = 1` refers to the branching of the leaf which refers to a single leaf node.
 * `d` is the depth of the MPC tree at the base layer.
 * `w` is the width of the MPC tree.
@@ -60,7 +60,7 @@ For the remaining `w - C` uninhabited leaves, a dummy value must be committed. T
 
 Where:
 
-* `merkle_tag = urn:ubideco:merkle:node#2024-01-31` is chosen according to [RGB conventions on Merkle Tree tagging commitments](https://github.com/RGB-WG/rgb-core/blob/vesper/doc/Commitments.md#merklization-procedure).
+* `merkle_tag = urn:ubideco:merkle:node#2024-01-31` is chosen according to [RGB conventions on Merkle Tree tagging commitments](https://github.com/RGB-WG/rgb-core/blob/master/doc/Commitments.md#merklization-procedure).
 * `b = 1` refers to the branching of the leaf which refers to a single leaf node.
 * `d` is the depth of the MPC tree at the base layer.
 * `w` is the width of the MPC tree.
@@ -69,7 +69,7 @@ Where:
 
 ### MPC nodes
 
-After generating the base of the MPC tree having `w` leaves, merkelization is performed following the rule of `commit_verify` crate detailed [here](https://github.com/RGB-WG/rgb-core/blob/vesper/doc/Commitments.md#merklization-procedure).
+After generating the base of the MPC tree having `w` leaves, merkelization is performed following the rule of `commit_verify` crate detailed [here](https://github.com/RGB-WG/rgb-core/blob/master/doc/Commitments.md#merklization-procedure).
 
 The following diagram shows the construction of an example MPC tree where:
 
@@ -77,7 +77,7 @@ The following diagram shows the construction of an example MPC tree where:
 * As an example: `pos(c_0) = 7, pos(c_1) = 4, pos(c_2) = 2`.
 * `BUNDLE_i = BundleId(c_i)`.
 * `tH_MPC_BRANCH(tH1 || tH2) = SHA-256(SHA-256(merkle_tag) || SHA-256(merkle_tag) || b || d || w || tH1 || tH2)`.
-* `merkle_tag = urn:ubideco:merkle:node#2024-01-31` is chosen according to [RGB conventions on Merkle Tree tagging commitments](https://github.com/RGB-WG/rgb-core/blob/vesper/doc/Commitments.md#merklization-procedure).
+* `merkle_tag = urn:ubideco:merkle:node#2024-01-31` is chosen according to [RGB conventions on Merkle Tree tagging commitments](https://github.com/RGB-WG/rgb-core/blob/master/doc/Commitments.md#merklization-procedure).
 * `b` is the branching of the tree merkelization scheme. In this case it is `b = 2` meaning that the merkelization happens with 2 input nodes: `tH1` and `tH2`, both having a 32-byte length.
 * `d` is the tree depth which is updated at each level of the tree encoded a an 8-bit Little Endian unsigned integer. The depth at the base of the MPC tree in the example is `d = 3`
 * `w` is a 256-bit Little Endian unsigned integer representing the width of the tree which remains fixed in each merkelization. In the example we have: `w=8`.
